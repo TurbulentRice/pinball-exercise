@@ -1,12 +1,29 @@
 # Pinball Locations Near Me
 
-## Overview
-Using whatever language you feel most comfortable with, leverage the pinballmap API to find the nearest pinball locations.
+Find nearby pinball locations using the [Pinball Map API](https://pinballmap.com/api/v1/docs). Written in vanilla JavaScript with a Node-Express router.
+
+## Features
+- "Near Me" button uses browser geolocation to auto-fill user's latitude and longitude coordinates.
+- "Search" button populates a list of nearby pinball locations.
+- Input validation and HTML sanitization (XSS).
+- Client and server error handling.
+- Responsive UI state.
+- No build step required.
+- Optimized for accessibility and SEO.
 
 ## Requirements
-- Use the https://pinballmap.com/api/v1/docs API.
-- The user should be able to both enter their latitude and longitude and auto-fill their latitude and longitude fields by clicking a Near Me button.
-- When the user clicks the Search button, a list of closest pinball locations appear on the page.
 
-## Submission
-Once complete, reply to the original email that you recieved from us with the link to your Github repo.
+- Node.js (see [.nvmrc](.nvmrc))
+
+## Getting Started
+
+```sh
+# Install Node packages
+npm install
+# Start Express server
+npm start
+```
+
+## Example
+
+![Desktop](./example.png)
