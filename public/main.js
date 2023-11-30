@@ -47,8 +47,8 @@
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 
     function successCallback(position) {
-      view.latitudeInput.setAttribute('value', position.coords.latitude);
-      view.longitudeInput.setAttribute('value', position.coords.longitude);
+      view.latitudeInput.value = position.coords.latitude;
+      view.longitudeInput.value = position.coords.longitude;
       view.nearMeBtn.disabled = false;
       view.modal.style.display = "none";
     }
