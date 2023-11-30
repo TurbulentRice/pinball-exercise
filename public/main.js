@@ -29,9 +29,7 @@
   /**
    * Check browser support for GPS
    */
-  if (navigator.geolocation) {
-    destroyError(view.nearMeError);
-  } else {
+  if (!navigator.geolocation) {
     showError(view.nearMeError, 'Browser does not support GPS location.');
     view.nearMeBtn.disabled = true;
   }
