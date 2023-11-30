@@ -3,65 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Find Pinball Locations Near Me">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <title>Pinball Exercise</title>
+  <title>Pinball Finder</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <link rel="stylesheet" href="main.css"/>
 </head>
 <body>
+
+  <!-- Header -->
+  <header>
+    <img alt="pinball" src="img/pinball.svg" width="85px"/>
+    <h1>Pinball Finder</h1>
+  </header>
+
   <main>
+    <div>
 
-    <!-- Info -->
-    <section id="info">
-      <header>
-        <img alt="pinball" src="img/pinball.svg" width="90px"/>
+      <!-- Info -->
+      <section id="info">
         <h2>Pinball Locations Near Me</h2>
-      </header>
-      <p>Find the best pinball locations in your region!</p>
-      <p>Enter your longitude and latitude, or click "Near Me" to use your current location.</p>
-      <p id="nearMeError" role="alert" class="error hidden"></p>
-      <button id="nearMeBtn">Near Me</button>
-    </section>
-    
-    <!-- Form -->
-    <section>
-      <form role="search">
-        <label for="latitude">Latitude: </label>
-        <input
-          id="latitude"
-          name="latitude"
-          type="text"
-          placeholder="e.g. 34.1368153"
-          pattern="^-?[0-9]\d*(\.\d+)?$"
-          required />
-        <label for="longitude">Longitude: </label>
-        <input
-          id="longitude"
-          name="longitude"
-          type="text"
-          placeholder="e.g. -104.0519877"
-          pattern="^-?[0-9]\d*(\.\d+)?$"
-          required />
-        <p id="formError" role="alert" class="error hidden"></p>
-        <button type="submit" aria-label="Search for pinball locations">Search</button>
-      </form>
-    </section>
+        <p>Find the best pinball locations in your region!</p>
+        <p>
+          Enter your longitude and latitude, or click <strong>Near Me</strong> to use your current location,
+          then click <strong>Search</strong> to display a list of locations.
+        </p>
+        <p id="nearMeError" role="alert" class="error hidden"></p>
+      </section>
+      
+      <!-- Form -->
+      <section>
+        <form role="search">
+          <label for="latitude">Latitude: </label>
+          <input
+            id="latitude"
+            name="latitude"
+            type="text"
+            placeholder="e.g. 34.1368153"
+            pattern="^-?[0-9]\d*(\.\d+)?$"
+            required />
+          <label for="longitude">Longitude: </label>
+          <input
+            id="longitude"
+            name="longitude"
+            type="text"
+            placeholder="e.g. -104.0519877"
+            pattern="^-?[0-9]\d*(\.\d+)?$"
+            required />
+          <p id="formError" role="alert" class="error hidden"></p>
+          <div role="group" class="inline-btn-group">
+            <button type="button" id="nearMeBtn" aria-label="Use my current location">Near Me</button>
+            <button type="submit" aria-label="Search for pinball locations">Search</button>
+          </div>
+        </form>
+      </section>
 
-    <!-- Locations -->
-    <section id="locations">
-      <h3 id="locationsHeader"></h3>
-      <ul id="locationsList"></ul>
-    </section>
+      <!-- Locations -->
+      <section id="locations">
+        <h3 id="locationsHeader"></h3>
+        <ul id="locationsList"></ul>
+      </section>
 
+    </div>
   </main>
 
   <!-- Modal -->
-  <div id="modal" class="modal">
+  <div id="modal" role="dialog" aria-modal="true" class="modal">
     <img src="img/loader.svg" width="145px"/>
   </div>
 
-  <script defer src="main.js"></script>
+  <!-- Scripts -->
+  <script src="sanitize.js"></script>
+  <script src="main.js"></script>
+
 </body>
-
-
 </html>

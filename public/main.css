@@ -1,20 +1,37 @@
+/* 
+Green:  #07854c;
+Orange: #f7ac3c
+ */
 html {
   height: -webkit-fill-available;
 }
 body {
-  background-color: #fdfdfd;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
   min-height: 100vh;
   min-height: -webkit-fill-available;
-  font-family: 'Helvetica', 'Arial', sans-serif;
-  display: flex;
-  flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
 header {
-  border-bottom: 1px solid #c5c5c5ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #07854c;
+  color: #fff;
 }
 main {
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
-  margin: auto;
+}
+main > div {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.5rem 0.5rem 1.5rem;
+  margin: 2rem auto;
+  max-width: 650px;
 }
 form {
   display: flex;
@@ -23,25 +40,28 @@ form {
 }
 input, button {
   border: 1px solid #c5c5c5ee;
-  padding: .5rem;
+  padding: 0.75rem;
 }
 input {
   margin-bottom: 1rem;
 }
 button {
-  background-color: #45ab7d;
-  border-color: #45ab7d;
+  font-weight: bold;
+  background-color: #07854c;
+  border: 2px solid #07854c;
   color: #fff;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 button:hover {
-  background-color: #3d9970;
-  border-color: #3d9970;
-  color: #fff;
+  background-color: #fff;
+  border-color: #07854c;
+  color: #07854c;
   cursor: pointer;
 }
 button:disabled {
-  background-color: #c5c5c5ee;;
-  border-color: #c5c5c5ee;;
+  background-color: #c5c5c5ee;
+  border-color: #c5c5c5ee;
+  color: #333;
   cursor: not-allowed;
   pointer-events: all !important;
 }
@@ -52,6 +72,7 @@ li {
   border: 1px solid #c5c5c5ee;
   padding: .5rem;
   list-style-type: none;
+  transition: background-color 0.3s ease;
 }
 ul li:not(:first-child) {
   border-top: none;
@@ -66,11 +87,14 @@ label {
 #info {
   margin-bottom: 1.5rem;
 }
-#info header h2 {
-  margin-top: 0;
+header h1 {
+  margin-left: 1rem;
 }
 #locations {
   margin-top: 2.5rem;
+}
+#locationsList > li:hover {
+  background-color: #f0f0f0;
 }
 #formError {
   margin-top: 0;
@@ -79,7 +103,7 @@ label {
   display: none;
 }
 .error {
-  color: #721c24;
+  color: #991f2b;
   background-color: #f8d7da;
   border-color: #f5c6cb;
   padding: .5rem;
@@ -94,4 +118,17 @@ label {
   background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
+}
+.inline-btn-group {
+  display: inline-flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.inline-btn-group > button {
+  width: 100%
+}
+@media only screen and (max-width: 600px) {
+  header h1 {
+    display: none;
+  }
 }

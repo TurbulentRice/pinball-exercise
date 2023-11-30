@@ -5,16 +5,16 @@
    */
   const view = {
     form:             document.querySelector('form'),
-    submitBtn:        document.querySelector('button[type="submit"]'),
     formError:        document.getElementById('formError'),
     nearMeError:      document.getElementById('nearMeError'),
     nearMeBtn:        document.getElementById('nearMeBtn'),
+    submitBtn:        document.querySelector('button[type="submit"]'),
     latitudeInput:    document.getElementById('latitude'),
     longitudeInput:   document.getElementById('longitude'),
     locationsHeader:  document.getElementById('locationsHeader'),
     locationsList:    document.getElementById('locationsList'),
     modal:            document.getElementById('modal'),
-  }
+  };
   view.nearMeBtn.addEventListener('click', handleNearMeClick);
   view.form.addEventListener('submit', handleSubmit);
 
@@ -53,8 +53,20 @@
       view.modal.style.display = "none";
     }
     function errorCallback(error) {
-      showError(view.nearMeError, error.message);
-      view.nearMeBtn.disabled = true;
+      let message = "Something very strange has happened.";
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          message = "Geolocation is disabled. Enable it in browser settings to get your coordinates.";
+          break;
+        case error.POSITION_UNAVAILABLE:
+          message = "Sorry! Your location information is unavailable.";
+          break;
+        case error.TIMEOUT:
+          message = "It took longer than expected to find your location.";
+          break;
+      }
+      showError(view.nearMeError, message);
+      view.nearMeBtn.disabled = false;
       view.modal.style.display = "none";
     }
   }
@@ -69,21 +81,20 @@
     view.submitBtn.disabled = true;
     view.modal.style.display = "flex";
     try {
+      // Get region and location data from back-end
       const formData = new FormData(e.target);
       const params = new URLSearchParams(formData);
       const res = await fetch('/api/closest?' + params.toString());
       if (res.status !== 200) throw new Error(res.statusText);
       const { locations, region } = await res.json();
-      view.locationsHeader.innerHTML = `${locations.length} locations within ${region.effective_radius} miles of ${region.full_name}`;
+
+      // Update UI
+      view.locationsHeader.innerHTML = cleanHTML(
+        `${locations.length} locations within ${region.effective_radius} miles of ${region.full_name}`
+      );
       view.locationsList.innerHTML = '';
       for (const location of locations) {
-        const li = document.createElement('li');
-        const name = cleanHTML(`<p><strong>${location.name}</strong></p>`);
-        const address = cleanHTML(`<p>${location.street}, ${location.city}, ${location.state} ${location.zip}</p>`);
-        const machineCount = cleanHTML(`<p><small>Number of machines: ${location.location_machine_xrefs?.length || 0}<small></p>`);
-        li.innerHTML += name;
-        li.innerHTML += address;
-        li.innerHTML += machineCount;
+        const li = LocationListItem(location);
         view.locationsList.appendChild(li);
       }
     } catch(e) {
@@ -91,6 +102,22 @@
     }
     view.submitBtn.disabled = false;
     view.modal.style.display = "none";
+  }
+
+  /**
+   * Returns a sanitized list item element from location data
+   * @param {Object}        location  Location object returned from API
+   * @returns {HTMLElement}           Sanitized DOM node
+   */
+  function LocationListItem({ name, street, city, state, zip, location_machine_xrefs }) {
+    const html = cleanHTML(
+      `<li>
+        <p><strong>${name}</strong></p>
+        <p>${street}, ${city}, ${state} ${zip}</p>
+        <p><small>Number of machines: ${location_machine_xrefs?.length || 0}</small></p>
+      </li>`
+    , true);
+    return html.item(0);
   }
   
   /**
@@ -109,87 +136,6 @@
   function destroyError(error) {
     error.innerHTML = '';
     error.classList.add("hidden");
-  }
-
- /**
-  * Sanitize an HTML string
-  * (c) 2021 Chris Ferdinandi, MIT License, https://gomakethings.com
-  * @param  {String}          str   The HTML string to sanitize
-  * @param  {Boolean}         nodes If true, returns HTML nodes instead of a string
-  * @return {String|NodeList}       The sanitized string or nodes
-  */
-  function cleanHTML (str, nodes) {
-
-    /**
-     * Convert the string to an HTML document
-     * @return {Node} An HTML document
-     */
-    function stringToHTML () {
-      let parser = new DOMParser();
-      let doc = parser.parseFromString(str, 'text/html');
-      return doc.body || document.createElement('body');
-    }
-
-    // Convert the string to HTML
-    let html = stringToHTML();
-
-    // Sanitize it
-    removeScripts(html);
-
-    clean(html)
-
-    return html.innerHTML;
-
-  }
-
-  /**
-   * Remove dangerous stuff from the HTML document's nodes
-   * @param  {Node} html The HTML document
-   */
-  function clean (html) {
-    let nodes = html.children;
-    for (let node of nodes) {
-      removeAttributes(node);
-      clean(node);
-    }
-  }
-
-  /**
-   * Remove <script> elements
-   * @param  {Node} html The HTML
-   */
-  function removeScripts (html) {
-    let scripts = html.querySelectorAll('script');
-    for (let script of scripts) {
-      script.remove();
-    }
-  }
-
-  /**
-   * Remove potentially dangerous attributes from an element
-   * @param  {Node} elem The element
-   */
-  function removeAttributes (elem) {
-    let atts = elem.attributes;
-    for (let {name, value} of atts) {
-      if (isPossiblyDangerous(name, value)) console.log('NAME:', name)
-      if (!isPossiblyDangerous(name, value)) continue;
-      elem.removeAttribute(name);
-    }
-  }
-
-  /**
-   * Check if the attribute is potentially dangerous
-   * @param  {String}  name  The attribute name
-   * @param  {String}  value The attribute value
-   * @return {Boolean}       If true, the attribute is potentially dangerous
-   */
-  function isPossiblyDangerous (name, value) {
-    let val = value.replace(/\s+/g, '').toLowerCase();
-    if (['src', 'href', 'xlink:href'].includes(name)) {
-      if (val.includes('javascript:') || val.includes('data:text/html')) return true;
-    }
-    if (name.startsWith('on')) return true;
   }
 
 })();
