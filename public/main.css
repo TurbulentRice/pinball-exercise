@@ -1,0 +1,97 @@
+html {
+  height: -webkit-fill-available;
+}
+body {
+  background-color: #fdfdfd;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+header {
+  border-bottom: 1px solid #c5c5c5ee;
+}
+main {
+  padding: 1rem;
+  margin: auto;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+input, button {
+  border: 1px solid #c5c5c5ee;
+  padding: .5rem;
+}
+input {
+  margin-bottom: 1rem;
+}
+button {
+  background-color: #45ab7d;
+  border-color: #45ab7d;
+  color: #fff;
+}
+button:hover {
+  background-color: #3d9970;
+  border-color: #3d9970;
+  color: #fff;
+  cursor: pointer;
+}
+button:disabled {
+  background-color: #c5c5c5ee;;
+  border-color: #c5c5c5ee;;
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
+ul {
+  padding-left: 0;
+}
+li {
+  border: 1px solid #c5c5c5ee;
+  padding: .5rem;
+  list-style-type: none;
+}
+ul li:not(:first-child) {
+  border-top: none;
+}
+li p {
+  margin: 0.5rem auto;
+}
+label {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+#info {
+  margin-bottom: 1.5rem;
+}
+#info header h2 {
+  margin-top: 0;
+}
+#locations {
+  margin-top: 2.5rem;
+}
+#formError {
+  margin-top: 0;
+}
+.hidden {
+  display: none;
+}
+.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  padding: .5rem;
+}
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
